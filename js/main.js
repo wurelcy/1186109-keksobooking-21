@@ -9,9 +9,9 @@ const GUESTS = [0, 1, 2];
 const DESCRIPTIONS = [`decription1`, `decription2`, `decription3`, `decription4`];
 const TITLES = [`title1`, `title2`, `title3`, `title4`];
 const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-const PINS = [];
+const pins = [];
 const PINS_LENGTH = 8;
-const RAND_FEATURES = [];
+const features = [];
 const MIN_Y = 130;
 const MAX_Y = 630;
 const MIN_X = 0;
@@ -40,9 +40,9 @@ const getRandomFromMin = function (min, max) {
 
 const generateFeatures = function (array) {
   for (let i = 0; i < getRandomNumber(array.length); i++) {
-    RAND_FEATURES[i] = array[i];
+    features[i] = array[i];
   }
-  return RAND_FEATURES;
+  return features;
 };
 
 const fillPins = function (array) {
@@ -73,7 +73,7 @@ const fillPins = function (array) {
   return array;
 };
 
-fillPins(PINS);
+fillPins(pins);
 
 const renderPins = function (pin) {
   let pinElement = similarPinTemplate.cloneNode(true);
@@ -87,6 +87,6 @@ const renderPins = function (pin) {
 };
 
 for (let j = 0; j < PINS_LENGTH; j++) {
-  fragment.appendChild(renderPins(PINS[j]));
+  fragment.appendChild(renderPins(pins[j]));
 }
 similarListElement.appendChild(fragment);
