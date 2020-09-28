@@ -9,50 +9,51 @@ const GUESTS = [0, 1, 2];
 const DESCRIPTIONS = [`decription1`, `decription2`, `decription3`, `decription4`];
 const TITLES = [`title1`, `title2`, `title3`, `title4`];
 const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-let pins = new Array(8);
-let features = [];
-const minY = 130;
-const maxY = 630;
-const minX = 0;
-const maxX = 1200;
-const size = 62;
+const PINS = [];
+const PINS_LENGTH = 8;
+const RAND_FEATURES = [];
+const MIN_Y = 130;
+const MAX_Y = 630;
+const MIN_X = 0;
+const MAX_X = 1200;
+const SIZE = 62;
 
 const map = document.querySelector(`.map`);
 map.classList.remove(`map--faded`);
 
-let fragment = document.createDocumentFragment();
+const fragment = document.createDocumentFragment();
 
-let similarPinTemplate = document.querySelector('#pin')
+const similarPinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
-let similarListElement = map.querySelector('map__pins');
+const similarListElement = map.querySelector('.map__pins');
 
-let getRandomNumber = function (randomNumber) {
+const getRandomNumber = function (randomNumber) {
   return Math.floor(Math.random() * randomNumber);
 };
 
-let getRandomFromMin = function (min, max) {
+const getRandomFromMin = function (min, max) {
   let rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
 };
 
-let generateFeatures = function (array) {
+const generateFeatures = function (array) {
   for (let i = 0; i < getRandomNumber(array.length); i++) {
-    features[i] = array[i];
+    RAND_FEATURES[i] = array[i];
   }
-  return features;
+  return RAND_FEATURES;
 };
 
-let fillPins = function (array) {
-  for (let i = 0; i < array.length; i++) {
+const fillPins = function (array) {
+  for (let i = 0; i < PINS_LENGTH; i++) {
     array[i] = {
       author: {
         avatar: `img/avatars/user0` + i + `.png`
       },
       offer: {
         title: TITLES[getRandomNumber(TITLES.length)],
-        address: getRandomFromMin(minX, maxX) + `, ` + getRandomFromMin(minY, maxY),
+        address: getRandomFromMin(MIN_X, MAX_X) + `, ` + getRandomFromMin(MIN_Y, MAX_Y),
         price: PRICES[getRandomNumber(PRICES.length)],
         type: HOUSE_TYPES[getRandomNumber(HOUSE_TYPES.length)],
         rooms: ROOMS[getRandomNumber(ROOMS.length)],
@@ -64,28 +65,28 @@ let fillPins = function (array) {
         photos: PHOTOS[getRandomNumber(PHOTOS.length)]
       },
       location: {
-        x: getRandomFromMin(minX, maxX),
-        y: getRandomFromMin(minY, maxY)
+        x: getRandomFromMin(MIN_X, MAX_X),
+        y: getRandomFromMin(MIN_Y, MAX_Y)
       }
     };
   }
   return array;
 };
 
-fillPins(pins);
+fillPins(PINS);
 
-let renderPins = function (pin) {
+const renderPins = function (pin) {
   let pinElement = similarPinTemplate.cloneNode(true);
 
-  pinElement.querySelector(`.map__pin`).style.left = pin.location.x + size + `px`;
-  pinElement.querySelector(`.map__pin`).style.top = pin.location.y + size + `px`;
+  pinElement.querySelector(`.map__pin`).style.left = pin.location.x + SIZE + `px`;
+  pinElement.querySelector(`.map__pin`).style.top = pin.location.y + SIZE + `px`;
   pinElement.querySelector(`img`).src = pin.author.avatar;
-  pinElement.querySelector(`img`).alt.textContent = pin.offer.title;
+  pinElement.querySelector(`img`).alt = pin.offer.title;
 
   return pinElement;
 };
 
-for (let j = 0; j < pins.length; j++) {
-  fragment.appendChild(renderPins(pins[j]));
+for (let j = 0; j < PINS_LENGTH; j++) {
+  fragment.appendChild(renderPins(PINS[j]));
 }
 similarListElement.appendChild(fragment);
