@@ -120,6 +120,7 @@ mapPin.addEventListener(`mousedown`, function (evt) {
 mapPin.addEventListener(`keydown`, function (evt) {
   if (evt.key === `Enter`) {
     makeActive();
+    getPins();
   }
 });
 
