@@ -98,7 +98,6 @@ const getPins = function () {
   similarListElement.appendChild(fragment);
 };
 
-
 const makeActive = function () {
   document.querySelector(`.ad-form`).classList.remove(`ad-form--disabled`);
   map.classList.remove(`map--faded`);
