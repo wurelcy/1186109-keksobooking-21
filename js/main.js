@@ -143,11 +143,15 @@ const validateSelect = function () {
   guestsOption.addEventListener(`change`, function () {
     if (roomsOption.value < guestsOption.value) {
       guestsOption.setCustomValidity(`Слишком много гостей`);
+    } else {
+      guestsOption.setCustomValidity(``);
     }
   });
   roomsOption.addEventListener(`change`, function () {
     if (roomsOption.value < guestsOption.value) {
       guestsOption.setCustomValidity(`Слишком много гостей`);
+    } else {
+      guestsOption.setCustomValidity(``);
     }
   });
 };
