@@ -15,19 +15,26 @@ const features = [];
 const MIN_Y = 130;
 const MAX_Y = 630;
 const MIN_X = 0;
-const MAX_X = 1200;
-const SIZE = 62;
+const MAX_X = 1000;
+const PIN_SIZE = 62;
+const PIN_TALE_SIZE = 10;
+const pinY = 375;
+const pinX = 570;
+let addressField = document.querySelector(`#address`);
+const roomsOption = document.querySelector(`#room_number`);
+const guestsOption = document.querySelector(`#capacity`);
+const fieldsets = document.querySelectorAll(`fieldset`);
 
 const map = document.querySelector(`.map`);
-map.classList.remove(`map--faded`);
+const mapPin = document.querySelector(`.map__pin--main`);
 
 const fragment = document.createDocumentFragment();
 
-const similarPinTemplate = document.querySelector('#pin')
+const similarPinTemplate = document.querySelector(`#pin`)
   .content
-  .querySelector('.map__pin');
+  .querySelector(`.map__pin`);
 
-const similarListElement = map.querySelector('.map__pins');
+const similarListElement = map.querySelector(`.map__pins`);
 
 const getRandomNumber = function (randomNumber) {
   return Math.floor(Math.random() * randomNumber);
@@ -49,7 +56,7 @@ const fillPins = function (array) {
   for (let i = 0; i < PINS_LENGTH; i++) {
     array[i] = {
       author: {
-        avatar: `img/avatars/user0` + i + `.png`
+        avatar: `img/avatars/user0` + (i + 1) + `.png`
       },
       offer: {
         title: TITLES[getRandomNumber(TITLES.length)],
@@ -77,16 +84,76 @@ fillPins(pins);
 
 const renderPins = function (pin) {
   let pinElement = similarPinTemplate.cloneNode(true);
-
-  pinElement.querySelector(`.map__pin`).style.left = pin.location.x + SIZE + `px`;
-  pinElement.querySelector(`.map__pin`).style.top = pin.location.y + SIZE + `px`;
+  pinElement.style.left = pin.location.x + PIN_SIZE + `px`;
+  pinElement.style.top = pin.location.y + PIN_SIZE + `px`;
   pinElement.querySelector(`img`).src = pin.author.avatar;
   pinElement.querySelector(`img`).alt = pin.offer.title;
 
   return pinElement;
 };
 
-for (let j = 0; j < PINS_LENGTH; j++) {
-  fragment.appendChild(renderPins(pins[j]));
-}
-similarListElement.appendChild(fragment);
+const getPins = function () {
+  for (let j = 0; j < PINS_LENGTH; j++) {
+    fragment.appendChild(renderPins(pins[j]));
+  }
+  similarListElement.appendChild(fragment);
+};
+
+const makeDisabled = function () {
+  fieldsets.forEach((fieldset) => {
+    fieldset.setAttribute(`disabled`, ``);
+  });
+};
+
+const removeDisabled = function () {
+  fieldsets.forEach((fieldset) => {
+    fieldset.removeAttribute(`disabled`, ``);
+  });
+};
+
+makeDisabled();
+
+const makeActive = function () {
+  document.querySelector(`.ad-form`).classList.remove(`ad-form--disabled`);
+  map.classList.remove(`map--faded`);
+};
+
+const setAddress = function () {
+  addressField.value = (pinY + PIN_SIZE / 2) + `, ` + (pinX + PIN_TALE_SIZE);
+};
+
+setAddress();
+
+mapPin.addEventListener(`mousedown`, function (evt) {
+  if (evt.button === 0) {
+    makeActive();
+    getPins();
+    removeDisabled();
+  }
+});
+
+mapPin.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Enter`) {
+    makeActive();
+    getPins();
+  }
+});
+
+const validateSelect = function () {
+  guestsOption.addEventListener(`change`, function () {
+    if (roomsOption.value < guestsOption.value) {
+      guestsOption.setCustomValidity(`Слишком много гостей`);
+    } else {
+      guestsOption.setCustomValidity(``);
+    }
+  });
+  roomsOption.addEventListener(`change`, function () {
+    if (roomsOption.value < guestsOption.value) {
+      guestsOption.setCustomValidity(`Слишком много гостей`);
+    } else {
+      guestsOption.setCustomValidity(``);
+    }
+  });
+};
+
+validateSelect();
