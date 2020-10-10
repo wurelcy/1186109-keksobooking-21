@@ -20,7 +20,6 @@
     pinElement.style.top = pin.location.y + window.main.PIN_SIZE + `px`;
     pinElement.querySelector(`img`).src = pin.author.avatar;
     pinElement.querySelector(`img`).alt = pin.offer.title;
-    console.log(pinElement);
     return pinElement;
   };
 
