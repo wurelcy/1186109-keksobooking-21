@@ -7,6 +7,7 @@ const pinY = 375;
 const pinX = 570;
 let addressField = document.querySelector(`#address`);
 
+
 const setAddress = function () {
   addressField.value = (pinY + PIN_SIZE / 2) + `, ` + (pinX + PIN_TALE_SIZE);
 };
