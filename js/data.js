@@ -37,7 +37,7 @@
   const fillPins = function () {
     const array = [];
     for (let i = 0; i < PINS_LENGTH; i++) {
-      let object = {
+      let coordinate = {
         address: getRandomFromMin(MIN_X, MAX_X) + `, ` + getRandomFromMin(MIN_Y, MAX_Y),
         location: {
           x: getRandomFromMin(MIN_X, MAX_X),
@@ -50,7 +50,7 @@
         },
         offer: {
           title: TITLES[getRandomNumber(TITLES.length)],
-          address: object.address,
+          address: coordinate.address,
           price: PRICES[getRandomNumber(PRICES.length)],
           type: HOUSE_TYPES[getRandomNumber(HOUSE_TYPES.length)],
           rooms: ROOMS[getRandomNumber(ROOMS.length)],
@@ -62,8 +62,8 @@
           photos: PHOTOS[getRandomNumber(PHOTOS.length)]
         },
         location: {
-          x: object.location.x,
-          y: object.location.y
+          x: coordinate.location.x,
+          y: coordinate.location.y
         }
       };
     }
