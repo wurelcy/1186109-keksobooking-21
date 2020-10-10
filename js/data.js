@@ -10,7 +10,7 @@
   const DESCRIPTIONS = [`decription1`, `decription2`, `decription3`, `decription4`];
   const TITLES = [`title1`, `title2`, `title3`, `title4`];
   const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-  const pins = [];
+  let pins = [];
   const PINS_LENGTH = 8;
   const features = [];
   const MIN_Y = 130;
@@ -34,15 +34,23 @@
     return features;
   };
 
-  const fillPins = function (array) {
+  const fillPins = function () {
+    const array = [];
     for (let i = 0; i < PINS_LENGTH; i++) {
+      let object = {
+        address: getRandomFromMin(MIN_X, MAX_X) + `, ` + getRandomFromMin(MIN_Y, MAX_Y),
+        location: {
+          x: getRandomFromMin(MIN_X, MAX_X),
+          y: getRandomFromMin(MIN_Y, MAX_Y)
+        }
+      };
       array[i] = {
         author: {
           avatar: `img/avatars/user0` + (i + 1) + `.png`
         },
         offer: {
           title: TITLES[getRandomNumber(TITLES.length)],
-          address: getRandomFromMin(MIN_X, MAX_X) + `, ` + getRandomFromMin(MIN_Y, MAX_Y),
+          address: object.address,
           price: PRICES[getRandomNumber(PRICES.length)],
           type: HOUSE_TYPES[getRandomNumber(HOUSE_TYPES.length)],
           rooms: ROOMS[getRandomNumber(ROOMS.length)],
@@ -54,15 +62,15 @@
           photos: PHOTOS[getRandomNumber(PHOTOS.length)]
         },
         location: {
-          x: getRandomFromMin(MIN_X, MAX_X),
-          y: getRandomFromMin(MIN_Y, MAX_Y)
+          x: object.location.x,
+          y: object.location.y
         }
       };
     }
     return array;
   };
 
-  fillPins(pins);
+  pins = fillPins();
   window.data = {
     PINS_LENGTH: PINS_LENGTH,
     pins: pins
