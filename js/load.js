@@ -6,13 +6,13 @@
     OK: 200
   };
 
-  window.load = function (onSuccess, onError) {
+  const loadData = function (onSuccess, onError) {
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.pins);
+        onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -33,6 +33,6 @@
   };
 
   window.load = {
-    load: window.load
+    loadData: loadData
   };
 })();
