@@ -2,6 +2,7 @@
 
 (function () {
   const fieldsets = document.querySelectorAll(`fieldset`);
+  const houseType = document.querySelector(`#housing-type`);
 
   const map = document.querySelector(`.map`);
   const mapPin = document.querySelector(`.map__pin--main`);
@@ -71,5 +72,30 @@
       makeActive();
       window.load.loadData(successHandler, errorHandler);
     }
+  });
+
+  const sortPins = function (pins) {
+    let sortedPins = [];
+
+    pins.forEach((type) => {
+      if (type.offer.type === houseType.value) {
+        sortedPins.push(type);
+        fragment.appendChild(renderPins(type));
+      }
+    });
+    similarListElement.appendChild(fragment);
+  };
+
+  const removePins = function () {
+    const elements = document.querySelectorAll(`.map__pin`);
+
+    for (let i = elements.length - 1; i > 0; i--) {
+      elements[i].parentNode.removeChild(elements[i]);
+    }
+  };
+
+  houseType.addEventListener(`change`, function () {
+    removePins();
+    window.load.loadData(sortPins, errorHandler);
   });
 })();
