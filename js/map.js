@@ -13,6 +13,11 @@
     .content
     .querySelector(`.map__pin`);
 
+
+  const similarCardTemplate = document.querySelector(`#card`)
+    .content
+    .querySelector(`.map__card`);
+
   const similarListElement = map.querySelector(`.map__pins`);
 
   const renderPins = function (pin) {
@@ -22,6 +27,49 @@
     pinElement.querySelector(`img`).src = pin.author.avatar;
     pinElement.querySelector(`img`).alt = pin.offer.title;
     return pinElement;
+  };
+
+  const renderCards = function (card) {
+    let cardElement = similarCardTemplate.cloneNode(true);
+    const featuresList = cardElement.querySelector(`.popup__features`);
+    featuresList.innerHTML = ``;
+    let type = ``;
+    switch (card.offer.type) {
+      case `flat`:
+        type = `Квартира `;
+        break;
+      case `bungalow`:
+        type = `Бунгало `;
+        break;
+      case `house`:
+        type = `Дом`;
+        break;
+      case `palace`:
+        type = `Дворец`;
+        break;
+      default:
+        type = `unknown`;
+    }
+
+    cardElement.querySelector(`.popup__title`).textContent = card.offer.title;
+    cardElement.querySelector(`.popup__text--address`).textContent = card.offer.address;
+    cardElement.querySelector(`.popup__text--price`).textContent = card.offer.price + `₽/ночь`;
+    cardElement.querySelector(`.popup__type`).textContent = type;
+    cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ` комнаты для ` + card.offer.rooms + ` гостей`;
+    cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ` + card.offer.checkin + `, выезд до ` + card.offer.checkout;
+
+    for (let i = 0; i < card.offer.features.length; i++) {
+      const node = document.createElement(`li`);
+      node.classList.add(`popup__feature`);
+      node.classList.add(`popup__feature--` + card.offer.features[i] + ``);
+      featuresList.insertAdjacentElement('afterbegin', node);
+    }
+
+    cardElement.querySelector(`.popup__description`).textContent = card.offer.description;
+    cardElement.querySelector(`.popup__photo`).src = card.offer.photos[0];
+    cardElement.querySelector(`.popup__avatar`).src = card.author.avatar;
+
+    return cardElement;
   };
 
   const makeDisabled = function () {
@@ -43,6 +91,7 @@
   const successHandler = function (pins) {
     for (let j = 0; j < window.data.PINS_LENGTH; j++) {
       fragment.appendChild(renderPins(pins[j]));
+      fragment.appendChild(renderCards(pins[j]));
     }
     similarListElement.appendChild(fragment);
   };
