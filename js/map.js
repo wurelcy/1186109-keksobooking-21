@@ -30,6 +30,8 @@
 
   const renderCards = function (card) {
     let cardElement = similarCardTemplate.cloneNode(true);
+    const featuresList = cardElement.querySelector(`.popup__features`);
+    featuresList.innerHTML = ``;
     let type = ``;
     switch (card.offer.type) {
       case `flat`:
@@ -54,7 +56,14 @@
     cardElement.querySelector(`.popup__type`).textContent = type;
     cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ` комнаты для ` + card.offer.rooms + ` гостей`;
     cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ` + card.offer.checkin + `, выезд до ` + card.offer.checkout;
-    cardElement.querySelector(`.popup__features`).textContent = card.offer.features;
+
+    for (let i = 0; i < card.offer.features.length; i++) {
+      const node = document.createElement(`li`);
+      node.classList.add(`popup__feature`);
+      node.classList.add(`popup__feature--` + card.offer.features[i] + ``);
+      featuresList.insertAdjacentElement('afterbegin', node);
+    }
+
     cardElement.querySelector(`.popup__description`).textContent = card.offer.description;
     cardElement.querySelector(`.popup__photo`).src = card.offer.photos[0];
     cardElement.querySelector(`.popup__avatar`).src = card.author.avatar;
