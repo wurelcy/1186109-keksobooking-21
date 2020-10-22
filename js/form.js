@@ -64,7 +64,6 @@
         default:
           minPrice = 0;
       }
-      console.log(minPrice);
     });
 
     if (price.validity.valueMissing) {
@@ -75,7 +74,6 @@
 
     price.addEventListener('input', function () {
       price.setCustomValidity('');
-      console.log(price);
       if (priceValue < minPrice) {
         price.setCustomValidity('Надо больше');
       } else if (priceValue > MAX_PRICE) {
