@@ -13,6 +13,7 @@
     .content
     .querySelector(`.map__pin`);
 
+
   const similarCardTemplate = document.querySelector(`#card`)
     .content
     .querySelector(`.map__card`);
