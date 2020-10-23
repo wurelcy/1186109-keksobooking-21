@@ -13,7 +13,6 @@
     .content
     .querySelector(`.map__pin`);
 
-
   const similarCardTemplate = document.querySelector(`#card`)
     .content
     .querySelector(`.map__card`);
@@ -68,6 +67,7 @@
     cardElement.querySelector(`.popup__description`).textContent = card.offer.description;
     cardElement.querySelector(`.popup__photo`).src = card.offer.photos[0];
     cardElement.querySelector(`.popup__avatar`).src = card.author.avatar;
+    cardElement.classList.add('hidden');
 
     return cardElement;
   };
@@ -94,6 +94,8 @@
       fragment.appendChild(renderCards(pins[j]));
     }
     similarListElement.appendChild(fragment);
+    openCard();
+    closeCard();
   };
 
   const errorHandler = function (errorMessage) {
@@ -130,21 +132,73 @@
       if (type.offer.type === houseType.value) {
         sortedPins.push(type);
         fragment.appendChild(renderPins(type));
+        fragment.appendChild(renderCards(type));
       }
     });
     similarListElement.appendChild(fragment);
+    openCard();
+    closeCard();
   };
 
-  const removePins = function () {
-    const elements = document.querySelectorAll(`.map__pin`);
+  const openCard = function () {
+    const pins = document.querySelectorAll(`.map__pin`);
+    const cards = document.querySelectorAll(`.map__card`);
 
-    for (let i = elements.length - 1; i > 0; i--) {
-      elements[i].parentNode.removeChild(elements[i]);
+    for (let i = 1; i < pins.length; i++) {
+      pins[i].addEventListener(`click`, function () {
+        cards.forEach((item) => {
+          if (!item.classList.contains(`hidden`)) {
+            item.classList.add(`hidden`);
+          }
+        });
+        cards[i - 1].classList.remove(`hidden`);
+      });
+
+      pins[i].addEventListener(`keydown`, function (evt) {
+        if (evt.key === `Enter`) {
+          cards.forEach((item) => {
+            if (!item.classList.contains(`hidden`)) {
+              item.classList.add(`hidden`);
+            }
+          });
+          cards[i - 1].classList.remove(`hidden`);
+        }
+      });
+    }
+  };
+
+  const closeCard = function () {
+    const close = document.querySelectorAll(`.popup__close`);
+    const cards = document.querySelectorAll(`.map__card`);
+
+    cards.forEach((item, i) => {
+      close[i].addEventListener(`click`, function () {
+        item.classList.add(`hidden`);
+      });
+
+      window.addEventListener(`keydown`, function (evt) {
+        if (evt.key === `Escape`) {
+          item.classList.add(`hidden`);
+        }
+      });
+    });
+  };
+
+  const removeMapElements = function () {
+    const mapPins = document.querySelectorAll(`.map__pin`);
+    const mapCards = document.querySelectorAll(`.map__card`);
+
+    for (let i = mapPins.length - 1; i > 0; i--) {
+      mapPins[i].parentNode.removeChild(mapPins[i]);
+    }
+
+    for (let i = mapCards.length - 1; i >= 0; i--) {
+      mapCards[i].parentNode.removeChild(mapCards[i]);
     }
   };
 
   houseType.addEventListener(`change`, function () {
-    removePins();
+    removeMapElements();
     window.load.loadData(sortPins, errorHandler);
   });
 })();
