@@ -90,6 +90,7 @@
     similarListElement.appendChild(fragment);
     window.card.openCard();
     window.card.closeCard();
+
   };
 
   const removeMapElements = function () {
