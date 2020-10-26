@@ -9,6 +9,12 @@
   const TYPE_BUNGALOW_RU = `Бунгало`;
   const TYPE_HOUSE_RU = `Дом`;
   const TYPE_PALACE_RU = `Дворец`;
+  const PRICE_TYPE = `₽/ночь`;
+  const ROOM_TYPE = ` комнаты для `;
+  const GUEST_TYPE = ` гостей`;
+  const CHECKIN_TYPE = `Заезд после `;
+  const CHECKOUT_TYPE = `, выезд до `;
+
   const similarCardTemplate = document.querySelector(`#card`)
     .content
     .querySelector(`.map__card`);
@@ -37,10 +43,10 @@
 
     cardElement.querySelector(`.popup__title`).textContent = card.offer.title;
     cardElement.querySelector(`.popup__text--address`).textContent = card.offer.address;
-    cardElement.querySelector(`.popup__text--price`).textContent = card.offer.price + `₽/ночь`;
+    cardElement.querySelector(`.popup__text--price`).textContent = card.offer.price + PRICE_TYPE;
     cardElement.querySelector(`.popup__type`).textContent = type;
-    cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ` комнаты для ` + card.offer.guests + ` гостей`;
-    cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ` + card.offer.checkin + `, выезд до ` + card.offer.checkout;
+    cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ROOM_TYPE + card.offer.guests + GUEST_TYPE;
+    cardElement.querySelector(`.popup__text--time`).textContent = CHECKIN_TYPE + card.offer.checkin + CHECKOUT_TYPE + card.offer.checkout;
 
     for (let i = 0; i < card.offer.features.length; i++) {
       const node = document.createElement(`li`);
