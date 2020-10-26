@@ -1,6 +1,14 @@
 'use strict';
 
 (function () {
+  const TYPE_FLAT_EN = `flat`;
+  const TYPE_BUNGALOW_EN = `bungalo`;
+  const TYPE_HOUSE_EN = `house`;
+  const TYPE_PALACE_EN = `palace`;
+  const TYPE_FLAT_RU = `Квартира`;
+  const TYPE_BUNGALOW_RU = `Бунгало`;
+  const TYPE_HOUSE_RU = `Дом`;
+  const TYPE_PALACE_RU = `Дворец`;
   const similarCardTemplate = document.querySelector(`#card`)
     .content
     .querySelector(`.map__card`);
@@ -11,17 +19,17 @@
     featuresList.innerHTML = ``;
     let type = ``;
     switch (card.offer.type) {
-      case `flat`:
-        type = `Квартира `;
+      case TYPE_FLAT_EN:
+        type = TYPE_FLAT_RU;
         break;
-      case `bungalow`:
-        type = `Бунгало `;
+      case TYPE_BUNGALOW_EN:
+        type = TYPE_BUNGALOW_RU;
         break;
-      case `house`:
-        type = `Дом`;
+      case TYPE_HOUSE_EN:
+        type = TYPE_HOUSE_RU;
         break;
-      case `palace`:
-        type = `Дворец`;
+      case TYPE_PALACE_EN:
+        type = TYPE_PALACE_RU;
         break;
       default:
         type = `unknown`;
@@ -31,7 +39,7 @@
     cardElement.querySelector(`.popup__text--address`).textContent = card.offer.address;
     cardElement.querySelector(`.popup__text--price`).textContent = card.offer.price + `₽/ночь`;
     cardElement.querySelector(`.popup__type`).textContent = type;
-    cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ` комнаты для ` + card.offer.rooms + ` гостей`;
+    cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ` комнаты для ` + card.offer.guests + ` гостей`;
     cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ` + card.offer.checkin + `, выезд до ` + card.offer.checkout;
 
     for (let i = 0; i < card.offer.features.length; i++) {
