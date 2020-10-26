@@ -52,7 +52,7 @@
         case `flat`:
           minPrice = 1000;
           break;
-        case `bungalow`:
+        case `bungalo`:
           minPrice = 0;
           break;
         case `house`:
