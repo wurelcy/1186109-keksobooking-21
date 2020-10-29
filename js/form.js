@@ -12,6 +12,7 @@
   const description = document.querySelector(`#description`);
   const resetFormButton = document.querySelector(`.ad-form__reset`);
   const featuresList = document.querySelectorAll(`.feature__checkbox`);
+
   const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   const houseFileChooser = document.querySelector('#images');
