@@ -54,7 +54,7 @@
     });
   };
 
-  const validatePrice = function () {
+  /* const validatePrice = function () {
     let priceValue = price.value;
     let minPrice = 1000;
 
@@ -93,7 +93,7 @@
         price.setCustomValidity('');
       }
     });
-  };
+  }; */
 
   const setTime = function () {
     timeIn.addEventListener(`change`, function () {
@@ -145,7 +145,7 @@
 
   setTime();
   validateTitle();
-  validatePrice();
+  // validatePrice();
   validateSelect();
   validatePhoto(houseFileChooser, housePreview);
   validatePhoto(userFileChooser, userPreview);
@@ -178,10 +178,12 @@
     window.map.makeDisabled();
     window.map.map.classList.add(`map--faded`);
     clearForm();
+    closeSuccessMessage();
   };
 
   const errorSubmit = function () {
     fragment.appendChild(renederError());
+    closeErrorMessage();
   };
 
   const closeSuccessMessage = function () {
@@ -213,10 +215,8 @@
   };
 
   const submitHandler = function (evt) {
-    window.upload.uploadData(new FormData(form), successSubmit(), errorSubmit());
     evt.preventDefault();
-    closeSuccessMessage();
-    closeErrorMessage();
+    window.upload.uploadData(new FormData(form), successSubmit, errorSubmit);
   };
 
   form.addEventListener(`submit`, submitHandler);

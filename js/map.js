@@ -90,7 +90,6 @@
     similarListElement.appendChild(fragment);
     window.card.openCard();
     window.card.closeCard();
-
   };
 
   const removeMapElements = function () {
@@ -112,6 +111,8 @@
   });
 
   window.map = {
-    mapPin: mapPin
+    mapPin: mapPin,
+    makeDisabled: makeDisabled,
+    map: map
   };
 })();

@@ -2,7 +2,7 @@
 
 (function () {
   const TYPE_FLAT_EN = `flat`;
-  const TYPE_BUNGALOW_EN = `bungalo`;
+  const TYPE_BUNGALOW_EN = `bungalow`;
   const TYPE_HOUSE_EN = `house`;
   const TYPE_PALACE_EN = `palace`;
   const TYPE_FLAT_RU = `Квартира`;
@@ -18,6 +18,7 @@
   const similarCardTemplate = document.querySelector(`#card`)
     .content
     .querySelector(`.map__card`);
+  const similarListElement = document.querySelector(`.map`).querySelector(`.map__pins`);
 
   const renderCards = function (card) {
     let cardElement = similarCardTemplate.cloneNode(true);
@@ -60,6 +61,7 @@
     cardElement.querySelector(`.popup__avatar`).src = card.author.avatar;
     cardElement.classList.add('hidden');
 
+    console.log(card.offer);
     return cardElement;
   };
 
@@ -75,6 +77,7 @@
           }
         });
         cards[i - 1].classList.remove(`hidden`);
+        similarListElement.appendChild(renderCards(cards[i - 1]));
       });
 
       pins[i].addEventListener(`keydown`, function (evt) {
@@ -85,6 +88,7 @@
             }
           });
           cards[i - 1].classList.remove(`hidden`);
+          similarListElement.appendChild(renderCards(cards[i - 1]));
         }
       });
     }
