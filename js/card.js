@@ -61,7 +61,6 @@
     cardElement.querySelector(`.popup__avatar`).src = card.author.avatar;
     cardElement.classList.add('hidden');
 
-    console.log(card.offer);
     return cardElement;
   };
 

@@ -5,14 +5,13 @@
   const guestsOption = document.querySelector(`#capacity`);
   const address = document.querySelector(`#address`);
   const price = document.querySelector(`#price`);
-  const type = document.querySelector(`#type`);
+  // const type = document.querySelector(`#type`);
   const timeIn = document.querySelector(`#timein`);
   const timeOut = document.querySelector(`#timeout`);
   const titleInput = document.querySelector(`#title`);
   const description = document.querySelector(`#description`);
   const resetFormButton = document.querySelector(`.ad-form__reset`);
   const featuresList = document.querySelectorAll(`.feature__checkbox`);
-
   const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   const houseFileChooser = document.querySelector('#images');
@@ -33,7 +32,7 @@
 
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
-  const MAX_PRICE = 1000000;
+  // const MAX_PRICE = 1000000;
 
   const validateTitle = function () {
     if (titleInput.validity.valueMissing) {
