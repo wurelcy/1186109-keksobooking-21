@@ -14,15 +14,38 @@
   const GUEST_TYPE = ` гостей`;
   const CHECKIN_TYPE = `Заезд после `;
   const CHECKOUT_TYPE = `, выезд до `;
+  const mapArea = document.querySelector(`.map`);
+  const insertTargetElement = mapArea.querySelector(`.map__filters-container`);
 
   const similarCardTemplate = document.querySelector(`#card`)
     .content
     .querySelector(`.map__card`);
-  const similarListElement = document.querySelector(`.map`).querySelector(`.map__pins`);
+  const cardFragment = document.createDocumentFragment();
+
+  const fillPhotos = function (template, photo) {
+    const imgElement = template.cloneNode(true);
+    imgElement.setAttribute(`src`, photo);
+    return imgElement;
+  };
+
+  const fillPhotosBlock = function (imgArray) {
+    const imgTemplate = document.cardElement.querySelector(`.popup__photos`).querySelector(`img`);
+    if (imgArray.length > 0) {
+      const imgList = document.cardElement.querySelector(`.popup__photos`);
+      const imgFragment = document.createDocumentFragment();
+      document.cardElement.querySelector(`.popup__photos`).querySelector(`img`).setAttribute(`src`, imgArray[0]);
+      for (let i = 1; i < imgArray.length; i++) {
+        imgFragment.appendChild(fillPhotos(imgTemplate, imgArray[i]));
+      }
+      imgList.appendChild(imgFragment);
+    } else {
+      document.cardElement.querySelector(`.popup__photos`).querySelector(`img`).remove();
+    }
+  };
 
   const renderCards = function (card) {
-    let cardElement = similarCardTemplate.cloneNode(true);
-    const featuresList = cardElement.querySelector(`.popup__features`);
+    document.cardElement = similarCardTemplate.cloneNode(true);
+    const featuresList = document.cardElement.querySelector(`.popup__features`);
     featuresList.innerHTML = ``;
     let type = ``;
     switch (card.offer.type) {
@@ -42,12 +65,12 @@
         type = `unknown`;
     }
 
-    cardElement.querySelector(`.popup__title`).textContent = card.offer.title;
-    cardElement.querySelector(`.popup__text--address`).textContent = card.offer.address;
-    cardElement.querySelector(`.popup__text--price`).textContent = card.offer.price + PRICE_TYPE;
-    cardElement.querySelector(`.popup__type`).textContent = type;
-    cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ROOM_TYPE + card.offer.guests + GUEST_TYPE;
-    cardElement.querySelector(`.popup__text--time`).textContent = CHECKIN_TYPE + card.offer.checkin + CHECKOUT_TYPE + card.offer.checkout;
+    document.cardElement.querySelector(`.popup__title`).textContent = card.offer.title;
+    document.cardElement.querySelector(`.popup__text--address`).textContent = card.offer.address;
+    document.cardElement.querySelector(`.popup__text--price`).textContent = card.offer.price + PRICE_TYPE;
+    document.cardElement.querySelector(`.popup__type`).textContent = type;
+    document.cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ROOM_TYPE + card.offer.guests + GUEST_TYPE;
+    document.cardElement.querySelector(`.popup__text--time`).textContent = CHECKIN_TYPE + card.offer.checkin + CHECKOUT_TYPE + card.offer.checkout;
 
     for (let i = 0; i < card.offer.features.length; i++) {
       const node = document.createElement(`li`);
@@ -56,58 +79,59 @@
       featuresList.insertAdjacentElement('afterbegin', node);
     }
 
-    cardElement.querySelector(`.popup__description`).textContent = card.offer.description;
-    cardElement.querySelector(`.popup__photo`).src = card.offer.photos[0];
-    cardElement.querySelector(`.popup__avatar`).src = card.author.avatar;
-    cardElement.classList.add('hidden');
+    document.cardElement.querySelector(`.popup__description`).textContent = card.offer.description;
+    fillPhotosBlock(card.offer.photos);
+    document.cardElement.querySelector(`.popup__avatar`).src = card.author.avatar;
 
-    return cardElement;
+    return document.cardElement;
   };
 
-  const openCard = function () {
-    const pins = document.querySelectorAll(`.map__pin`);
-    const cards = document.querySelectorAll(`.map__card`);
-
-    for (let i = 1; i < pins.length; i++) {
-      pins[i].addEventListener(`click`, function () {
-        cards.forEach((item) => {
-          if (!item.classList.contains(`hidden`)) {
-            item.classList.add(`hidden`);
-          }
-        });
-        cards[i - 1].classList.remove(`hidden`);
-        similarListElement.appendChild(renderCards(cards[i - 1]));
-      });
-
-      pins[i].addEventListener(`keydown`, function (evt) {
-        if (evt.key === `Enter`) {
-          cards.forEach((item) => {
-            if (!item.classList.contains(`hidden`)) {
-              item.classList.add(`hidden`);
-            }
-          });
-          cards[i - 1].classList.remove(`hidden`);
-          similarListElement.appendChild(renderCards(cards[i - 1]));
-        }
-      });
+  const removeExistPin = function () {
+    const mapAreaElement = window.map.map.querySelector(`.map__card`);
+    if (mapAreaElement) {
+      mapAreaElement.remove();
     }
   };
 
   const closeCard = function () {
     const close = document.querySelectorAll(`.popup__close`);
-    const cards = document.querySelectorAll(`.map__card`);
+    const card = document.querySelector(`.map__card`);
 
-    cards.forEach((item, i) => {
+    close.forEach((item, i) => {
       close[i].addEventListener(`click`, function () {
-        item.classList.add(`hidden`);
+        card.remove();
       });
 
       window.addEventListener(`keydown`, function (evt) {
         if (evt.key === `Escape`) {
-          item.classList.add(`hidden`);
+          card.remove();
         }
       });
     });
+  };
+
+  const openCard = function (pinsArray) {
+    const pins = document.querySelectorAll(`.map__pin`);
+    removeExistPin();
+
+    for (let i = 1; i < pins.length; i++) {
+      const currentPin = pinsArray[i - 1];
+      pins[i].addEventListener(`click`, function () {
+        removeExistPin();
+        cardFragment.appendChild(window.card.renderCards(currentPin));
+        mapArea.insertBefore(cardFragment, insertTargetElement);
+        closeCard();
+      });
+
+      pins[i].addEventListener(`keydown`, function (evt) {
+        if (evt.key === `Enter`) {
+          removeExistPin();
+          cardFragment.appendChild(window.card.renderCards(currentPin));
+          mapArea.insertBefore(cardFragment, insertTargetElement);
+          closeCard();
+        }
+      });
+    }
   };
 
   window.card = {
