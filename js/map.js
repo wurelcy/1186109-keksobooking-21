@@ -110,6 +110,7 @@
   window.map = {
     mapPin: mapPin,
     makeDisabled: makeDisabled,
-    map: map
+    map: map,
+    removeMapElements: removeMapElements
   };
 })();

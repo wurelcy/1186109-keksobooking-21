@@ -5,7 +5,7 @@
   const guestsOption = document.querySelector(`#capacity`);
   const address = document.querySelector(`#address`);
   const price = document.querySelector(`#price`);
-  // const type = document.querySelector(`#type`);
+  const type = document.querySelector(`#type`);
   const timeIn = document.querySelector(`#timein`);
   const timeOut = document.querySelector(`#timeout`);
   const titleInput = document.querySelector(`#title`);
@@ -32,7 +32,7 @@
 
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
-  // const MAX_PRICE = 1000000;
+  const MAX_PRICE = 1000000;
 
   const validateTitle = function () {
     if (titleInput.validity.valueMissing) {
@@ -54,8 +54,7 @@
     });
   };
 
-  /* const validatePrice = function () {
-    let priceValue = price.value;
+  const validatePrice = function () {
     let minPrice = 1000;
 
     type.addEventListener(`change`, function () {
@@ -84,6 +83,7 @@
     }
 
     price.addEventListener('input', function () {
+      let priceValue = price.value;
       price.setCustomValidity('');
       if (priceValue < minPrice) {
         price.setCustomValidity('Надо больше');
@@ -93,7 +93,7 @@
         price.setCustomValidity('');
       }
     });
-  }; */
+  };
 
   const setTime = function () {
     timeIn.addEventListener(`change`, function () {
@@ -145,7 +145,7 @@
 
   setTime();
   validateTitle();
-  // validatePrice();
+  validatePrice();
   validateSelect();
   validatePhoto(houseFileChooser, housePreview);
   validatePhoto(userFileChooser, userPreview);
@@ -170,31 +170,15 @@
     });
   };
 
-  resetFormButton.addEventListener(`click`, clearForm);
-
-  const successSubmit = function () {
-    fragment.appendChild(renederSuccess());
-    form.classList.add(`ad-form--disabled`);
-    window.map.makeDisabled();
-    window.map.map.classList.add(`map--faded`);
-    clearForm();
-    closeSuccessMessage();
-  };
-
-  const errorSubmit = function () {
-    fragment.appendChild(renederError());
-    closeErrorMessage();
-  };
-
   const closeSuccessMessage = function () {
     const message = document.querySelector(`.success`);
     window.addEventListener(`click`, function () {
-      message.classList.add(`hidden`);
+      message.remove();
     });
 
     window.addEventListener(`keydown`, function (evt) {
       if (evt.key === `Escape`) {
-        message.classList.add(`hidden`);
+        message.remove();
       }
     });
   };
@@ -204,14 +188,31 @@
     const closeBtn = document.querySelector(`.error__button`);
 
     closeBtn.addEventListener(`click`, function () {
-      message.classList.add(`hidden`);
+      message.remove();
     });
 
     window.addEventListener(`keydown`, function (evt) {
       if (evt.key === `Escape`) {
-        message.classList.add(`hidden`);
+        message.remove();
       }
     });
+  };
+
+  resetFormButton.addEventListener(`click`, clearForm);
+
+  const successSubmit = function () {
+    fragment.appendChild(renederSuccess());
+    form.classList.add(`ad-form--disabled`);
+    window.map.makeDisabled();
+    window.map.map.classList.add(`map--faded`);
+    clearForm();
+    closeSuccessMessage();
+    window.map.removeMapElements();
+  };
+
+  const errorSubmit = function () {
+    fragment.appendChild(renederError());
+    closeErrorMessage();
   };
 
   const submitHandler = function (evt) {
