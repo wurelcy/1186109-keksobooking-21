@@ -21,6 +21,7 @@
     pinElement.style.top = pin.location.y + window.main.PIN_SIZE + `px`;
     pinElement.querySelector(`img`).src = pin.author.avatar;
     pinElement.querySelector(`img`).alt = pin.offer.title;
+
     return pinElement;
   };
 
@@ -43,11 +44,9 @@
   const successHandler = function (pins) {
     for (let j = 0; j < window.data.PINS_LENGTH; j++) {
       fragment.appendChild(renderPins(pins[j]));
-      fragment.appendChild(window.card.renderCards(pins[j]));
     }
     similarListElement.appendChild(fragment);
-    window.card.openCard();
-    window.card.closeCard();
+    window.card.openCard(pins);
   };
 
   const errorHandler = function (errorMessage) {
@@ -84,13 +83,10 @@
       if (type.offer.type === houseType.value) {
         sortedPins.push(type);
         fragment.appendChild(renderPins(type));
-        fragment.appendChild(window.card.renderCards(type));
       }
     });
     similarListElement.appendChild(fragment);
-    window.card.openCard();
-    window.card.closeCard();
-
+    window.card.openCard(sortedPins);
   };
 
   const removeMapElements = function () {
@@ -112,6 +108,9 @@
   });
 
   window.map = {
-    mapPin: mapPin
+    mapPin: mapPin,
+    makeDisabled: makeDisabled,
+    map: map,
+    removeMapElements: removeMapElements
   };
 })();

@@ -8,12 +8,25 @@
   const type = document.querySelector(`#type`);
   const timeIn = document.querySelector(`#timein`);
   const timeOut = document.querySelector(`#timeout`);
+  const titleInput = document.querySelector(`#title`);
+  const description = document.querySelector(`#description`);
+  const resetFormButton = document.querySelector(`.ad-form__reset`);
+  const featuresList = document.querySelectorAll(`.feature__checkbox`);
   const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   const houseFileChooser = document.querySelector('#images');
   const housePreview = document.querySelector('.ad-form__photo');
   const userFileChooser = document.querySelector('#avatar');
-  const userPreview = document.querySelector('ad-form-header__preview img');
+  const userPreview = document.querySelector('.ad-form-header__preview img');
+
+  const form = document.querySelector('.ad-form');
+  const successTemplate = document.querySelector(`#success`)
+    .content
+    .querySelector(`.success`);
+  const errorTemplate = document.querySelector(`#error`)
+    .content
+    .querySelector(`.error`);
+  const fragment = document.querySelector(`.notice`);
 
   address.setAttribute('readonly', ``);
 
@@ -22,8 +35,6 @@
   const MAX_PRICE = 1000000;
 
   const validateTitle = function () {
-    const titleInput = document.querySelector(`#title`);
-
     if (titleInput.validity.valueMissing) {
       titleInput.setCustomValidity('Обязательное поле');
     } else {
@@ -44,7 +55,6 @@
   };
 
   const validatePrice = function () {
-    let priceValue = price.value;
     let minPrice = 1000;
 
     type.addEventListener(`change`, function () {
@@ -52,7 +62,7 @@
         case `flat`:
           minPrice = 1000;
           break;
-        case `bungalo`:
+        case `bungalow`:
           minPrice = 0;
           break;
         case `house`:
@@ -73,6 +83,7 @@
     }
 
     price.addEventListener('input', function () {
+      let priceValue = price.value;
       price.setCustomValidity('');
       if (priceValue < minPrice) {
         price.setCustomValidity('Надо больше');
@@ -138,4 +149,76 @@
   validateSelect();
   validatePhoto(houseFileChooser, housePreview);
   validatePhoto(userFileChooser, userPreview);
+
+  const renederSuccess = function () {
+    let successElement = successTemplate.cloneNode(true);
+    return successElement;
+  };
+
+  const renederError = function () {
+    let errorElement = errorTemplate.cloneNode(true);
+    return errorElement;
+  };
+
+  const clearForm = function () {
+    titleInput.value = ``;
+    price.value = ``;
+    description.value = ``;
+    housePreview.value = ``;
+    featuresList.forEach((item) => {
+      item.value = ``;
+    });
+  };
+
+  const closeSuccessMessage = function () {
+    const message = document.querySelector(`.success`);
+    window.addEventListener(`click`, function () {
+      message.remove();
+    });
+
+    window.addEventListener(`keydown`, function (evt) {
+      if (evt.key === `Escape`) {
+        message.remove();
+      }
+    });
+  };
+
+  const closeErrorMessage = function () {
+    const message = document.querySelector(`.error`);
+    const closeBtn = document.querySelector(`.error__button`);
+
+    closeBtn.addEventListener(`click`, function () {
+      message.remove();
+    });
+
+    window.addEventListener(`keydown`, function (evt) {
+      if (evt.key === `Escape`) {
+        message.remove();
+      }
+    });
+  };
+
+  resetFormButton.addEventListener(`click`, clearForm);
+
+  const successSubmit = function () {
+    fragment.appendChild(renederSuccess());
+    form.classList.add(`ad-form--disabled`);
+    window.map.makeDisabled();
+    window.map.map.classList.add(`map--faded`);
+    clearForm();
+    closeSuccessMessage();
+    window.map.removeMapElements();
+  };
+
+  const errorSubmit = function () {
+    fragment.appendChild(renederError());
+    closeErrorMessage();
+  };
+
+  const submitHandler = function (evt) {
+    evt.preventDefault();
+    window.upload.uploadData(new FormData(form), successSubmit, errorSubmit);
+  };
+
+  form.addEventListener(`submit`, submitHandler);
 })();
