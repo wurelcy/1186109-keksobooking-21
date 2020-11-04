@@ -15,7 +15,7 @@
   const mainPin = window.map.mapPin;
   const DEFAULT_ADDRESS_Y = `406`;
   const DEFAULT_ADDRESS_X = `580`;
-  const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 
   const houseFileChooser = document.querySelector('#images');
   const housePreview = document.querySelector('.ad-form__photo');
@@ -80,20 +80,20 @@
     });
 
     if (price.validity.valueMissing) {
-      price.setCustomValidity('Обязательное поле');
+      price.setCustomValidity(`Обязательное поле`);
     } else {
-      price.setCustomValidity('');
+      price.setCustomValidity(``);
     }
 
-    price.addEventListener('input', function () {
+    price.addEventListener(`input`, function () {
       let priceValue = price.value;
-      price.setCustomValidity('');
+      price.setCustomValidity(``);
       if (priceValue < minPrice) {
-        price.setCustomValidity('Надо больше');
+        price.setCustomValidity(`Надо больше`);
       } else if (priceValue > MAX_PRICE) {
-        price.setCustomValidity('Будьте скромнее');
+        price.setCustomValidity(`Будьте скромнее`);
       } else {
-        price.setCustomValidity('');
+        price.setCustomValidity(``);
       }
     });
   };
@@ -110,14 +110,14 @@
 
   const validateSelect = function () {
     guestsOption.addEventListener(`change`, function () {
-      if (roomsOption.value < guestsOption.value) {
+      if ((roomsOption.value < guestsOption.value && guestsOption.value > 0) || (guestsOption.value === 0 && roomsOption.value !== 100)) {
         guestsOption.setCustomValidity(`Слишком много гостей`);
       } else {
         guestsOption.setCustomValidity(``);
       }
     });
     roomsOption.addEventListener(`change`, function () {
-      if (roomsOption.value < guestsOption.value) {
+      if ((roomsOption.value < guestsOption.value && guestsOption.value > 0) || (guestsOption.value === 0 && roomsOption.value !== 100)) {
         guestsOption.setCustomValidity(`Слишком много гостей`);
       } else {
         guestsOption.setCustomValidity(``);
@@ -126,7 +126,7 @@
   };
 
   const validatePhoto = function (fileChooser, preview) {
-    fileChooser.addEventListener('change', function () {
+    fileChooser.addEventListener(`change`, function () {
       let file = fileChooser.files[0];
       let fileName = file.name.toLowerCase();
 
@@ -137,7 +137,7 @@
       if (matches) {
         const reader = new FileReader();
 
-        reader.addEventListener('load', function () {
+        reader.addEventListener(`load`, function () {
           preview.src = reader.result;
         });
 
@@ -167,9 +167,14 @@
     titleInput.value = ``;
     price.value = ``;
     description.value = ``;
+    roomsOption.value = 1;
+    guestsOption.value = 1;
+    timeOut.value = `12:00`;
+    timeIn.value = `12:00`;
+    type.value = `flat`;
     housePreview.value = ``;
     featuresList.forEach((item) => {
-      item.value = ``;
+      item.checked = false;
     });
     address.value = DEFAULT_ADDRESS_Y + `,` + DEFAULT_ADDRESS_X;
     mainPin.style.top = DEFAULT_ADDRESS_Y + 'px';
@@ -205,7 +210,10 @@
     });
   };
 
-  resetFormButton.addEventListener(`click`, clearForm);
+  resetFormButton.addEventListener(`click`, function (evt) {
+    evt.preventDefault();
+    clearForm();
+  });
 
   const successSubmit = function () {
     fragment.appendChild(renederSuccess());
