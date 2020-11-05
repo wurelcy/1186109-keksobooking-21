@@ -8,6 +8,7 @@
   const housingRoomsFilter = mapFilters.querySelector(`#housing-rooms`);
   const housingGuestsFilter = mapFilters.querySelector(`#housing-guests`);
   const housingFeaturesList = mapFilters.querySelectorAll(`.map__checkbox`);
+  const anyValue = `any`;
 
   const map = document.querySelector(`.map`);
   const mapPin = document.querySelector(`.map__pin--main`);
@@ -20,7 +21,7 @@
 
   const similarListElement = map.querySelector(`.map__pins`);
 
-  const renderPins = (pin) => {
+  const renderPin = (pin) => {
     let pinElement = similarPinTemplate.cloneNode(true);
     pinElement.style.left = pin.location.x + window.main.PIN_SIZE + `px`;
     pinElement.style.top = pin.location.y + window.main.PIN_SIZE + `px`;
@@ -62,23 +63,23 @@
   const successHandler = (pins) => {
     removeMapElements();
     for (let j = 0; j < window.data.PINS_LENGTH; j++) {
-      fragment.appendChild(renderPins(pins[j]));
+      fragment.appendChild(renderPin(pins[j]));
     }
     similarListElement.appendChild(fragment);
     window.card.openCard(pins);
   };
 
   const errorHandler = (errorMessage) => {
-    const node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: #9c2727;';
-    node.style.position = 'absolute';
+    const node = document.createElement(`div`);
+    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: #9c2727;`;
+    node.style.position = `absolute`;
     node.style.left = 0;
-    node.style.color = 'white';
+    node.style.color = `white`;
     node.style.right = 0;
-    node.style.fontSize = '28px';
+    node.style.fontSize = `28px`;
 
     node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
   mapPin.addEventListener(`mousedown`, function (evt) {
@@ -89,7 +90,7 @@
   });
 
   mapPin.addEventListener(`keydown`, function (evt) {
-    if (evt.key === `Enter`) {
+    if (evt.key === window.data.enterButton) {
       makeActive();
       window.load.loadData(successHandler, errorHandler);
     }
@@ -112,14 +113,20 @@
     };
 
     const filterPinsByPrice = (value) => {
+      const middlePrice = `middle`;
+      const middlePriceValue = 10000;
+      const lowPrice = `low`;
+      const highriceValue = 50000;
+      const highPrice = `high`;
+
       pins = pins.filter((pin) => {
         switch (value) {
-          case `middle`:
-            return (pin.offer.price >= 10000) && (pin.offer.price <= 50000);
-          case `low`:
-            return pin.offer.price < 10000;
-          case `high`:
-            return pin.offer.price > 50000;
+          case middlePrice:
+            return (pin.offer.price >= middlePriceValue) && (pin.offer.price <= highriceValue);
+          case lowPrice:
+            return pin.offer.price < middlePriceValue;
+          case highPrice:
+            return pin.offer.price > highriceValue;
           default:
             return false;
         }
@@ -159,14 +166,14 @@
 
     Filters.forEach((obj) => {
       const selectValue = obj.name.value;
-      if (selectValue !== `any`) {
+      if (selectValue !== anyValue) {
         obj.filterFunction(selectValue);
       }
     });
 
     pins.forEach((pin, i) => {
       if (i < 5) {
-        fragment.appendChild(renderPins(pin));
+        fragment.appendChild(renderPin(pin));
       }
     });
 
@@ -181,7 +188,7 @@
 
   const resetFilters = () => {
     mapFilters.querySelectorAll(`select`).forEach((select) => {
-      select.value = `any`;
+      select.value = anyValue;
     });
     housingFeaturesList.forEach((element) => {
       element.checked = false;

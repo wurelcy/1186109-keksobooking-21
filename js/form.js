@@ -17,12 +17,12 @@
   const DEFAULT_ADDRESS_X = `580`;
   const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 
-  const houseFileChooser = document.querySelector('#images');
-  const housePreview = document.querySelector('.ad-form__photo');
-  const userFileChooser = document.querySelector('#avatar');
-  const userPreview = document.querySelector('.ad-form-header__preview img');
+  const houseFileChooser = document.querySelector(`#images`);
+  const housePreview = document.querySelector(`.ad-form__photo`);
+  const userFileChooser = document.querySelector(`#avatar`);
+  const userPreview = document.querySelector(`.ad-form-header__preview img`);
 
-  const form = document.querySelector('.ad-form');
+  const form = document.querySelector(`.ad-form`);
   const successTemplate = document.querySelector(`#success`)
     .content
     .querySelector(`.success`);
@@ -31,7 +31,7 @@
     .querySelector(`.error`);
   const fragment = document.querySelector(`.notice`);
 
-  address.setAttribute('readonly', ``);
+  address.setAttribute(`readonly`, ``);
 
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
@@ -39,20 +39,20 @@
 
   const validateTitle = function () {
     if (titleInput.validity.valueMissing) {
-      titleInput.setCustomValidity('Обязательное поле');
+      titleInput.setCustomValidity(`Обязательное поле`);
     } else {
-      titleInput.setCustomValidity('');
+      titleInput.setCustomValidity(``);
     }
 
-    titleInput.addEventListener('input', function () {
+    titleInput.addEventListener(`input`, function () {
       let valueLength = titleInput.value.length;
 
       if (valueLength < MIN_TITLE_LENGTH) {
-        titleInput.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+        titleInput.setCustomValidity(`Ещё ` + (MIN_TITLE_LENGTH - valueLength) + ` симв.`);
       } else if (valueLength > MAX_TITLE_LENGTH) {
-        titleInput.setCustomValidity('Удалите лишние ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+        titleInput.setCustomValidity(`Удалите лишние ` + (valueLength - MAX_TITLE_LENGTH) + ` симв.`);
       } else {
-        titleInput.setCustomValidity('');
+        titleInput.setCustomValidity(``);
       }
     });
   };
@@ -62,16 +62,16 @@
 
     type.addEventListener(`change`, function () {
       switch (type.value) {
-        case `flat`:
+        case window.card.TYPE_FLAT_EN:
           minPrice = 1000;
           break;
-        case `bungalow`:
+        case window.card.TYPE_BUNGALOW_EN:
           minPrice = 0;
           break;
-        case `house`:
+        case window.card.TYPE_HOUSE_EN:
           minPrice = 5000;
           break;
-        case `palace`:
+        case window.card.TYPE_PALACE_EN:
           minPrice = 10000;
           break;
         default:
@@ -110,14 +110,20 @@
 
   const validateSelect = function () {
     guestsOption.addEventListener(`change`, function () {
-      if ((roomsOption.value < guestsOption.value && guestsOption.value > 0) || (guestsOption.value === 0 && roomsOption.value !== 100)) {
+      const guestsValue = parseInt(guestsOption.value, 10);
+      const roomsValue = parseInt(roomsOption.value, 10);
+
+      if ((roomsValue < guestsValue && guestsValue > 0) || (guestsValue === 0 && roomsValue !== 100) || (guestsValue > 0 && roomsValue === 100)) {
         guestsOption.setCustomValidity(`Слишком много гостей`);
       } else {
         guestsOption.setCustomValidity(``);
       }
     });
     roomsOption.addEventListener(`change`, function () {
-      if ((roomsOption.value < guestsOption.value && guestsOption.value > 0) || (guestsOption.value === 0 && roomsOption.value !== 100)) {
+      const guestsValue = parseInt(guestsOption.value, 10);
+      const roomsValue = parseInt(roomsOption.value, 10);
+
+      if ((roomsValue < guestsValue && guestsValue > 0) || (guestsValue === 0 && roomsValue !== 100) || (guestsValue > 0 && roomsValue === 100)) {
         guestsOption.setCustomValidity(`Слишком много гостей`);
       } else {
         guestsOption.setCustomValidity(``);
@@ -171,14 +177,14 @@
     guestsOption.value = 1;
     timeOut.value = `12:00`;
     timeIn.value = `12:00`;
-    type.value = `flat`;
+    type.value = window.card.TYPE_FLAT_EN;
     housePreview.value = ``;
     featuresList.forEach((item) => {
       item.checked = false;
     });
     address.value = DEFAULT_ADDRESS_Y + `,` + DEFAULT_ADDRESS_X;
-    mainPin.style.top = DEFAULT_ADDRESS_Y + 'px';
-    mainPin.style.left = DEFAULT_ADDRESS_X + 'px';
+    mainPin.style.top = DEFAULT_ADDRESS_Y + `px`;
+    mainPin.style.left = DEFAULT_ADDRESS_X + `px`;
     window.map.resetFilters();
   };
 
@@ -189,7 +195,7 @@
     });
 
     window.addEventListener(`keydown`, function (evt) {
-      if (evt.key === `Escape`) {
+      if (evt.key === window.data.escapeButton) {
         message.remove();
       }
     });
@@ -204,7 +210,7 @@
     });
 
     window.addEventListener(`keydown`, function (evt) {
-      if (evt.key === `Escape`) {
+      if (evt.key === window.data.escapeButton) {
         message.remove();
       }
     });

@@ -103,7 +103,7 @@
       });
 
       window.addEventListener(`keydown`, function (evt) {
-        if (evt.key === `Escape`) {
+        if (evt.key === window.data.escapeButton) {
           card.remove();
         }
       });
@@ -124,7 +124,7 @@
       });
 
       pins[i].addEventListener(`keydown`, function (evt) {
-        if (evt.key === `Enter`) {
+        if (evt.key === window.data.enterButton) {
           removeExistPin();
           cardFragment.appendChild(window.card.renderCards(currentPin));
           mapArea.insertBefore(cardFragment, insertTargetElement);
@@ -137,6 +137,10 @@
   window.card = {
     renderCards: renderCards,
     openCard: openCard,
-    closeCard: closeCard
+    closeCard: closeCard,
+    TYPE_FLAT_EN: TYPE_FLAT_EN,
+    TYPE_BUNGALOW_EN: TYPE_BUNGALOW_EN,
+    TYPE_PALACE_EN: TYPE_PALACE_EN,
+    TYPE_HOUSE_EN: TYPE_HOUSE_EN
   };
 })();

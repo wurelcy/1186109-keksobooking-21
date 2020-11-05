@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var DEBOUNCE_INTERVAL = 300;
+  let DEBOUNCE_INTERVAL = 300;
 
   window.debounce = function (cb) {
     let lastTimeout = null;
