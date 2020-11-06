@@ -3,7 +3,7 @@
   let DEBOUNCE_INTERVAL = 300;
 
   window.debounce = function (cb) {
-    let lastTimeout = null;
+    const lastTimeout = null;
 
     return function (...parameters) {
       if (lastTimeout) {

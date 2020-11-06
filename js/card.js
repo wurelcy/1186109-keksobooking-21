@@ -103,7 +103,7 @@
       });
 
       window.addEventListener(`keydown`, function (evt) {
-        if (evt.key === window.data.escapeButton) {
+        if (evt.key === window.data.ESCAPE_BUTTON) {
           card.remove();
         }
       });
@@ -124,7 +124,7 @@
       });
 
       pins[i].addEventListener(`keydown`, function (evt) {
-        if (evt.key === window.data.enterButton) {
+        if (evt.key === window.data.ENTER_BUTTON) {
           removeExistPin();
           cardFragment.appendChild(window.card.renderCards(currentPin));
           mapArea.insertBefore(cardFragment, insertTargetElement);

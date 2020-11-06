@@ -24,7 +24,7 @@
   const renderPin = (pin) => {
     let pinElement = similarPinTemplate.cloneNode(true);
     pinElement.style.left = pin.location.x + window.main.PIN_SIZE + `px`;
-    pinElement.style.top = pin.location.y + window.main.PIN_SIZE + `px`;
+    pinElement.style.top = pin.location.y - window.main.PIN_SIZE + `px`;
     pinElement.querySelector(`img`).src = pin.author.avatar;
     pinElement.querySelector(`img`).alt = pin.offer.title;
 
@@ -90,7 +90,7 @@
   });
 
   mapPin.addEventListener(`keydown`, function (evt) {
-    if (evt.key === window.data.enterButton) {
+    if (evt.key === window.data.ENTER_BUTTON) {
       makeActive();
       window.load.loadData(successHandler, errorHandler);
     }
@@ -113,20 +113,20 @@
     };
 
     const filterPinsByPrice = (value) => {
-      const middlePrice = `middle`;
-      const middlePriceValue = 10000;
-      const lowPrice = `low`;
-      const highriceValue = 50000;
-      const highPrice = `high`;
+      const MIDDLE_PRICE = `middle`;
+      const MIDDLE_PRICE_VALUE = 10000;
+      const LOW_PRICE = `low`;
+      const HIGH_PRICE_VALUE = 50000;
+      const HIGH_PRICE = `high`;
 
       pins = pins.filter((pin) => {
         switch (value) {
-          case middlePrice:
-            return (pin.offer.price >= middlePriceValue) && (pin.offer.price <= highriceValue);
-          case lowPrice:
-            return pin.offer.price < middlePriceValue;
-          case highPrice:
-            return pin.offer.price > highriceValue;
+          case MIDDLE_PRICE:
+            return (pin.offer.price >= MIDDLE_PRICE_VALUE) && (pin.offer.price <= HIGH_PRICE_VALUE);
+          case LOW_PRICE:
+            return pin.offer.price < MIDDLE_PRICE_VALUE;
+          case HIGH_PRICE:
+            return pin.offer.price > HIGH_PRICE_VALUE;
           default:
             return false;
         }

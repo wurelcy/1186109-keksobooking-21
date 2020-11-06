@@ -61,18 +61,23 @@
     let minPrice = 1000;
 
     type.addEventListener(`change`, function () {
+      const BUNGALOW_MIN_PRICE = 0;
+      const FLAT_MIN_PRICE = 1000;
+      const HOUSE_MIN_PRICE = 5000;
+      const PALACE_MIN_PRICE = 10000;
+
       switch (type.value) {
         case window.card.TYPE_FLAT_EN:
-          minPrice = 1000;
+          minPrice = FLAT_MIN_PRICE;
           break;
         case window.card.TYPE_BUNGALOW_EN:
-          minPrice = 0;
+          minPrice = BUNGALOW_MIN_PRICE;
           break;
         case window.card.TYPE_HOUSE_EN:
-          minPrice = 5000;
+          minPrice = HOUSE_MIN_PRICE;
           break;
         case window.card.TYPE_PALACE_EN:
-          minPrice = 10000;
+          minPrice = PALACE_MIN_PRICE;
           break;
         default:
           minPrice = 0;
@@ -170,13 +175,16 @@
   };
 
   const clearForm = function () {
+    const DEFAULT_TIME = `12:00`;
+    const DEFAULT_AMOUNT = 1;
+
     titleInput.value = ``;
     price.value = ``;
     description.value = ``;
-    roomsOption.value = 1;
-    guestsOption.value = 1;
-    timeOut.value = `12:00`;
-    timeIn.value = `12:00`;
+    roomsOption.value = DEFAULT_AMOUNT;
+    guestsOption.value = DEFAULT_AMOUNT;
+    timeOut.value = DEFAULT_TIME;
+    timeIn.value = DEFAULT_TIME;
     type.value = window.card.TYPE_FLAT_EN;
     housePreview.value = ``;
     featuresList.forEach((item) => {
@@ -195,7 +203,7 @@
     });
 
     window.addEventListener(`keydown`, function (evt) {
-      if (evt.key === window.data.escapeButton) {
+      if (evt.key === window.data.ESCAPE_BUTTON) {
         message.remove();
       }
     });
@@ -210,7 +218,7 @@
     });
 
     window.addEventListener(`keydown`, function (evt) {
-      if (evt.key === window.data.escapeButton) {
+      if (evt.key === window.data.ESCAPE_BUTTON) {
         message.remove();
       }
     });

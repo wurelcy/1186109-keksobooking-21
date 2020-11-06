@@ -7,8 +7,8 @@
   const MAX_Y = 630;
   const MIN_X = 0;
   const MAX_X = 1140;
-  const enterButton = `Enter`;
-  const escapeButton = `Escape`;
+  const ENTER_BUTTON = `Enter`;
+  const ESCAPE_BUTTON = `Escape`;
 
   window.data = {
     PINS_LENGTH: PINS_LENGTH,
@@ -17,7 +17,7 @@
     MIN_X: MIN_X,
     MAX_Y: MAX_Y,
     MAX_X: MAX_X,
-    enterButton: enterButton,
-    escapeButton: escapeButton
+    ENTER_BUTTON: ENTER_BUTTON,
+    ESCAPE_BUTTON: ESCAPE_BUTTON
   };
 })();
