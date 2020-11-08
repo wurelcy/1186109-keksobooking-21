@@ -72,7 +72,6 @@
     document.cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ROOM_TYPE + card.offer.guests + GUEST_TYPE;
     document.cardElement.querySelector(`.popup__text--time`).textContent = CHECKIN_TYPE + card.offer.checkin + CHECKOUT_TYPE + card.offer.checkout;
 
-
     card.offer.features.forEach((feature) => {
       const node = document.createElement(`li`);
       node.classList.add(`popup__feature`);
