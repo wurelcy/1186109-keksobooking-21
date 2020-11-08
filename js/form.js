@@ -36,8 +36,14 @@
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
   const MAX_PRICE = 1000000;
+  const BUNGALOW_MIN_PRICE = 0;
+  const FLAT_MIN_PRICE = 1000;
+  const HOUSE_MIN_PRICE = 5000;
+  const PALACE_MIN_PRICE = 10000;
+  const DEFAULT_TIME = `12:00`;
+  const DEFAULT_AMOUNT = 1;
 
-  const validateTitle = function () {
+  const validateTitle = () => {
     if (titleInput.validity.valueMissing) {
       titleInput.setCustomValidity(`Обязательное поле`);
     } else {
@@ -57,27 +63,26 @@
     });
   };
 
-  const validatePrice = function () {
-    let minPrice = 1000;
+  const validatePrice = () => {
+    let minPrice = FLAT_MIN_PRICE;
 
     type.addEventListener(`change`, function () {
-      const BUNGALOW_MIN_PRICE = 0;
-      const FLAT_MIN_PRICE = 1000;
-      const HOUSE_MIN_PRICE = 5000;
-      const PALACE_MIN_PRICE = 10000;
-
       switch (type.value) {
         case window.card.TYPE_FLAT_EN:
           minPrice = FLAT_MIN_PRICE;
+          price.setAttribute(`placeholder`, FLAT_MIN_PRICE);
           break;
         case window.card.TYPE_BUNGALOW_EN:
           minPrice = BUNGALOW_MIN_PRICE;
+          price.setAttribute(`placeholder`, BUNGALOW_MIN_PRICE);
           break;
         case window.card.TYPE_HOUSE_EN:
           minPrice = HOUSE_MIN_PRICE;
+          price.setAttribute(`placeholder`, HOUSE_MIN_PRICE);
           break;
         case window.card.TYPE_PALACE_EN:
           minPrice = PALACE_MIN_PRICE;
+          price.setAttribute(`placeholder`, PALACE_MIN_PRICE);
           break;
         default:
           minPrice = 0;
@@ -103,7 +108,7 @@
     });
   };
 
-  const setTime = function () {
+  const setTime = () => {
     timeIn.addEventListener(`change`, function () {
       timeOut.value = timeIn.value;
     });
@@ -136,7 +141,7 @@
     });
   };
 
-  const validatePhoto = function (fileChooser, preview) {
+  const validatePhoto = (fileChooser, preview) => {
     fileChooser.addEventListener(`change`, function () {
       let file = fileChooser.files[0];
       let fileName = file.name.toLowerCase();
@@ -164,20 +169,17 @@
   validatePhoto(houseFileChooser, housePreview);
   validatePhoto(userFileChooser, userPreview);
 
-  const renederSuccess = function () {
+  const renederSuccess = () => {
     let successElement = successTemplate.cloneNode(true);
     return successElement;
   };
 
-  const renederError = function () {
+  const renederError = () => {
     let errorElement = errorTemplate.cloneNode(true);
     return errorElement;
   };
 
-  const clearForm = function () {
-    const DEFAULT_TIME = `12:00`;
-    const DEFAULT_AMOUNT = 1;
-
+  const clearForm = () => {
     titleInput.value = ``;
     price.value = ``;
     description.value = ``;
@@ -194,24 +196,49 @@
     mainPin.style.top = DEFAULT_ADDRESS_Y + `px`;
     mainPin.style.left = DEFAULT_ADDRESS_X + `px`;
     window.map.resetFilters();
+    form.classList.add(`ad-form--disabled`);
+    window.map.makeDisabled();
+    window.map.map.classList.add(`map--faded`);
+    window.map.removeMapElements();
   };
 
-  const closeSuccessMessage = function () {
+  const closeSuccessMessage = () => {
     const message = document.querySelector(`.success`);
-    window.addEventListener(`click`, function () {
+
+    const closeMessageHandler = () => {
       message.remove();
+
+      document.removeEventListener('keydown', function (evt) {
+        if (evt.key === window.data.ESCAPE_BUTTON) {
+          message.remove();
+        }
+      });
+    };
+
+    document.addEventListener(`click`, function () {
+      closeMessageHandler();
     });
 
-    window.addEventListener(`keydown`, function (evt) {
+    document.addEventListener(`keydown`, function (evt) {
       if (evt.key === window.data.ESCAPE_BUTTON) {
-        message.remove();
+        closeMessageHandler();
       }
     });
   };
 
-  const closeErrorMessage = function () {
+  const closeErrorMessage = () => {
     const message = document.querySelector(`.error`);
     const closeBtn = document.querySelector(`.error__button`);
+
+    const closeMessageHandler = () => {
+      message.remove();
+
+      document.removeEventListener('keydown', function (evt) {
+        if (evt.key === window.data.ESCAPE_BUTTON) {
+          message.remove();
+        }
+      });
+    };
 
     closeBtn.addEventListener(`click`, function () {
       message.remove();
@@ -219,7 +246,7 @@
 
     window.addEventListener(`keydown`, function (evt) {
       if (evt.key === window.data.ESCAPE_BUTTON) {
-        message.remove();
+        closeMessageHandler();
       }
     });
   };
@@ -229,24 +256,20 @@
     clearForm();
   });
 
-  const successSubmit = function () {
+  const successSubmit = () => {
     fragment.appendChild(renederSuccess());
-    form.classList.add(`ad-form--disabled`);
-    window.map.makeDisabled();
-    window.map.map.classList.add(`map--faded`);
     clearForm();
     closeSuccessMessage();
-    window.map.removeMapElements();
   };
 
-  const errorSubmit = function () {
+  const errorSubmit = () => {
     fragment.appendChild(renederError());
     closeErrorMessage();
   };
 
-  const submitHandler = function (evt) {
+  const submitHandler = (evt) => {
     evt.preventDefault();
-    window.upload.uploadData(new FormData(form), successSubmit, errorSubmit);
+    window.backend.uploadData(new FormData(form), successSubmit, errorSubmit);
   };
 
   form.addEventListener(`submit`, submitHandler);

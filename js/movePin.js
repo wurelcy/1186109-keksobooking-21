@@ -5,7 +5,7 @@
   const PIN_TALE = 22;
   const PIN_SIZE = 62;
   const MIN_HEIGHT = window.data.MIN_Y - PIN_TALE;
-  const MAX_HEIGHT = window.data.MAX_Y + PIN_TALE;
+  const MAX_HEIGHT = window.data.MAX_Y - PIN_TALE;
   const MAX_X = window.data.MAX_X + (PIN_SIZE / 2);
   const MIN_X = window.data.MIN_X - (PIN_SIZE / 2);
 
@@ -37,7 +37,7 @@
       if ((mainPin.offsetTop - shift.y) < MAX_HEIGHT && (mainPin.offsetTop - shift.y) > MIN_HEIGHT && (mainPin.offsetLeft - shift.x) > MIN_X && (mainPin.offsetLeft - shift.x) < MAX_X) {
         mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
-        window.form.address.value = `` + (mainPin.offsetTop - shift.y) + `,` + (mainPin.offsetLeft - shift.x) + ``;
+        window.form.address.value = `` + (mainPin.offsetLeft - shift.x + PIN_SIZE / 2) + `,` + (mainPin.offsetTop - shift.y + PIN_TALE) + ``;
       }
     };
 

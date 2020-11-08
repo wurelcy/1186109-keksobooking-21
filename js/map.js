@@ -9,6 +9,7 @@
   const housingGuestsFilter = mapFilters.querySelector(`#housing-guests`);
   const housingFeaturesList = mapFilters.querySelectorAll(`.map__checkbox`);
   const anyValue = `any`;
+  let savedPins = [];
 
   const map = document.querySelector(`.map`);
   const mapPin = document.querySelector(`.map__pin--main`);
@@ -47,9 +48,9 @@
       mapPins[i].parentNode.removeChild(mapPins[i]);
     }
 
-    for (let i = mapCards.length - 1; i >= 0; i--) {
-      mapCards[i].parentNode.removeChild(mapCards[i]);
-    }
+    mapCards.forEach((card) => {
+      card.parentNode.removeChild(card);
+    });
   };
 
   const makeActive = () => {
@@ -62,6 +63,7 @@
 
   const successHandler = (pins) => {
     removeMapElements();
+    savedPins = pins.slice();
     for (let j = 0; j < window.data.PINS_LENGTH; j++) {
       fragment.appendChild(renderPin(pins[j]));
     }
@@ -85,14 +87,14 @@
   mapPin.addEventListener(`mousedown`, function (evt) {
     if (evt.button === 0) {
       makeActive();
-      window.load.loadData(successHandler, errorHandler);
+      window.backend.loadData(successHandler, errorHandler);
     }
   });
 
   mapPin.addEventListener(`keydown`, function (evt) {
     if (evt.key === window.data.ENTER_BUTTON) {
       makeActive();
-      window.load.loadData(successHandler, errorHandler);
+      window.backend.loadData(successHandler, errorHandler);
     }
   });
 
@@ -181,9 +183,13 @@
     window.card.openCard(pins);
   };
 
-  mapFilters.addEventListener(`change`, function () {
+  const getFilteredPins = () => {
     removeMapElements();
-    window.load.loadData(window.debounce(sortPins), errorHandler);
+    sortPins(savedPins);
+  };
+
+  mapFilters.addEventListener(`change`, function () {
+    window.debounce(getFilteredPins());
   });
 
   const resetFilters = () => {
@@ -200,6 +206,7 @@
     makeDisabled: makeDisabled,
     map: map,
     resetFilters: resetFilters,
-    removeMapElements: removeMapElements
+    removeMapElements: removeMapElements,
+    getFilteredPins: getFilteredPins
   };
 })();

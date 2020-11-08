@@ -22,13 +22,13 @@
     .querySelector(`.map__card`);
   const cardFragment = document.createDocumentFragment();
 
-  const fillPhotos = function (template, photo) {
+  const fillPhotos = (template, photo) => {
     const imgElement = template.cloneNode(true);
     imgElement.setAttribute(`src`, photo);
     return imgElement;
   };
 
-  const fillPhotosBlock = function (imgArray) {
+  const fillPhotosBlock = (imgArray) => {
     const imgTemplate = document.cardElement.querySelector(`.popup__photos`).querySelector(`img`);
     if (imgArray.length > 0) {
       const imgList = document.cardElement.querySelector(`.popup__photos`);
@@ -43,7 +43,7 @@
     }
   };
 
-  const renderCards = function (card) {
+  const renderCards = (card) => {
     document.cardElement = similarCardTemplate.cloneNode(true);
     const featuresList = document.cardElement.querySelector(`.popup__features`);
     featuresList.innerHTML = ``;
@@ -72,12 +72,13 @@
     document.cardElement.querySelector(`.popup__text--capacity`).textContent = card.offer.rooms + ROOM_TYPE + card.offer.guests + GUEST_TYPE;
     document.cardElement.querySelector(`.popup__text--time`).textContent = CHECKIN_TYPE + card.offer.checkin + CHECKOUT_TYPE + card.offer.checkout;
 
-    for (let i = 0; i < card.offer.features.length; i++) {
+
+    card.offer.features.forEach((feature) => {
       const node = document.createElement(`li`);
       node.classList.add(`popup__feature`);
-      node.classList.add(`popup__feature--` + card.offer.features[i] + ``);
+      node.classList.add(`popup__feature--` + feature + ``);
       featuresList.insertAdjacentElement('afterbegin', node);
-    }
+    });
 
     document.cardElement.querySelector(`.popup__description`).textContent = card.offer.description;
     fillPhotosBlock(card.offer.photos);
@@ -86,56 +87,65 @@
     return document.cardElement;
   };
 
-  const removeExistPin = function () {
+  const removeExistPin = () => {
     const mapAreaElement = window.map.map.querySelector(`.map__card`);
     if (mapAreaElement) {
       mapAreaElement.remove();
     }
   };
 
-  const closeCard = function () {
+  const closeCard = () => {
     const close = document.querySelectorAll(`.popup__close`);
     const card = document.querySelector(`.map__card`);
+
+    const closeCardHandler = () => {
+      card.remove();
+
+      document.removeEventListener('keydown', function (evt) {
+        if (evt.key === window.data.ESCAPE_BUTTON) {
+          card.remove();
+        }
+      });
+    };
 
     close.forEach((item, i) => {
       close[i].addEventListener(`click`, function () {
         card.remove();
       });
 
-      window.addEventListener(`keydown`, function (evt) {
+      document.addEventListener(`keydown`, function (evt) {
         if (evt.key === window.data.ESCAPE_BUTTON) {
-          card.remove();
+          closeCardHandler();
         }
       });
     });
   };
 
-  const openCard = function (pinsArray) {
+  const openCard = (pinsArray) => {
     const pins = document.querySelectorAll(`.map__pin`);
     removeExistPin();
 
-    for (let i = 1; i < pins.length; i++) {
+    pins.forEach((pin, i) => {
       const currentPin = pinsArray[i - 1];
-      pins[i].addEventListener(`click`, function () {
+      pin.addEventListener(`click`, function () {
         removeExistPin();
-        cardFragment.appendChild(window.card.renderCards(currentPin));
+        cardFragment.appendChild(renderCards(currentPin));
         mapArea.insertBefore(cardFragment, insertTargetElement);
         closeCard();
       });
 
-      pins[i].addEventListener(`keydown`, function (evt) {
+      pin.addEventListener(`keydown`, function (evt) {
         if (evt.key === window.data.ENTER_BUTTON) {
           removeExistPin();
-          cardFragment.appendChild(window.card.renderCards(currentPin));
+          cardFragment.appendChild(renderCards(currentPin));
           mapArea.insertBefore(cardFragment, insertTargetElement);
           closeCard();
         }
       });
-    }
+    });
   };
 
   window.card = {
-    renderCards: renderCards,
     openCard: openCard,
     closeCard: closeCard,
     TYPE_FLAT_EN: TYPE_FLAT_EN,
