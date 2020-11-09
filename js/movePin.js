@@ -34,10 +34,14 @@
         y: moveEvt.clientY
       };
 
+      let currentPinX = Math.round(parseInt(mainPin.style.left, 10) + PIN_SIZE / 2);
+      let currentPinY = Math.round(parseInt(mainPin.style.top, 10) + PIN_TALE);
+
+
       if ((mainPin.offsetTop - shift.y) < MAX_HEIGHT && (mainPin.offsetTop - shift.y) > MIN_HEIGHT && (mainPin.offsetLeft - shift.x) > MIN_X && (mainPin.offsetLeft - shift.x) < MAX_X) {
         mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
-        window.form.address.value = `` + (mainPin.offsetLeft - shift.x + PIN_SIZE / 2) + `,` + (mainPin.offsetTop - shift.y + PIN_TALE) + ``;
+        window.form.address.value = `` + (currentPinX) + `,` + (currentPinY) + ``;
       }
     };
 
