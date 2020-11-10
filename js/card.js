@@ -76,7 +76,7 @@
       const node = document.createElement(`li`);
       node.classList.add(`popup__feature`);
       node.classList.add(`popup__feature--` + feature + ``);
-      featuresList.insertAdjacentElement('afterbegin', node);
+      featuresList.insertAdjacentElement(`afterbegin`, node);
     });
 
     document.cardElement.querySelector(`.popup__description`).textContent = card.offer.description;
@@ -100,7 +100,7 @@
     const closeCardHandler = () => {
       card.remove();
 
-      document.removeEventListener('keydown', function (evt) {
+      document.removeEventListener(`keydown`, function (evt) {
         if (evt.key === window.data.ESCAPE_BUTTON) {
           card.remove();
         }
@@ -124,16 +124,16 @@
     const pins = document.querySelectorAll(`.map__pin`);
     removeExistPin();
 
-    pins.forEach((pin, i) => {
+    for (let i = 1; i < pins.length; i++) {
       const currentPin = pinsArray[i - 1];
-      pin.addEventListener(`click`, function () {
+      pins[i].addEventListener(`click`, function () {
         removeExistPin();
         cardFragment.appendChild(renderCards(currentPin));
         mapArea.insertBefore(cardFragment, insertTargetElement);
         closeCard();
       });
 
-      pin.addEventListener(`keydown`, function (evt) {
+      pins[i].addEventListener(`keydown`, function (evt) {
         if (evt.key === window.data.ENTER_BUTTON) {
           removeExistPin();
           cardFragment.appendChild(renderCards(currentPin));
@@ -141,7 +141,7 @@
           closeCard();
         }
       });
-    });
+    }
   };
 
   window.card = {
