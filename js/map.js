@@ -38,6 +38,7 @@
   };
 
   const makeDisabled = () => {
+    mapFilters.classList.add(`hidden`);
     fieldsets.forEach((fieldset) => {
       fieldset.setAttribute(`disabled`, ``);
     });
@@ -61,6 +62,7 @@
   const makeActive = () => {
     document.querySelector(`.ad-form`).classList.remove(`ad-form--disabled`);
     map.classList.remove(`map--faded`);
+    mapFilters.classList.remove(`hidden`);
     fieldsets.forEach((fieldset) => {
       fieldset.removeAttribute(`disabled`, ``);
     });
@@ -90,14 +92,14 @@
   };
 
   mapPin.addEventListener(`mousedown`, function (evt) {
-    if (evt.button === 0) {
+    if (evt.button === 0 && (map.classList.contains(`map--faded`))) {
       makeActive();
       window.backend.loadData(successHandler, errorHandler);
     }
   });
 
   mapPin.addEventListener(`keydown`, function (evt) {
-    if (evt.key === window.data.ENTER_BUTTON) {
+    if (evt.key === window.data.ENTER_BUTTON && (map.classList.contains(`map--faded`))) {
       makeActive();
       window.backend.loadData(successHandler, errorHandler);
     }
