@@ -94,7 +94,7 @@
   };
 
   const closeCard = () => {
-    const close = document.querySelectorAll(`.popup__close`);
+    const closeButtons = document.querySelectorAll(`.popup__close`);
     const card = document.querySelector(`.map__card`);
 
     const closeCardHandler = () => {
@@ -107,8 +107,8 @@
       });
     };
 
-    close.forEach((item, i) => {
-      close[i].addEventListener(`click`, function () {
+    closeButtons.forEach((item, i) => {
+      closeButtons[i].addEventListener(`click`, function () {
         card.remove();
       });
 
