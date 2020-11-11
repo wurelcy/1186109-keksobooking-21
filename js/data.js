@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  let pins = [];
   const PINS_LENGTH = 5;
   const MIN_Y = 130;
   const MAX_Y = 630;
@@ -9,6 +8,7 @@
   const MAX_X = 1140;
   const ENTER_BUTTON = `Enter`;
   const ESCAPE_BUTTON = `Escape`;
+  let pins = [];
 
   window.data = {
     PINS_LENGTH: PINS_LENGTH,

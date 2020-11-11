@@ -1,6 +1,12 @@
 'use strict';
 
 (function () {
+  const MIDDLE_PRICE = `middle`;
+  const MIDDLE_PRICE_VALUE = 10000;
+  const LOW_PRICE = `low`;
+  const HIGH_PRICE_VALUE = 50000;
+  const HIGH_PRICE = `high`;
+  const ANY_VALUE = `any`;
   const fieldsets = document.querySelectorAll(`fieldset`);
   const mapFilters = document.querySelector(`.map__filters`);
   const housingTypeFilter = mapFilters.querySelector(`#housing-type`);
@@ -8,7 +14,6 @@
   const housingRoomsFilter = mapFilters.querySelector(`#housing-rooms`);
   const housingGuestsFilter = mapFilters.querySelector(`#housing-guests`);
   const housingFeaturesList = mapFilters.querySelectorAll(`.map__checkbox`);
-  const ANY_VALUE = `any`;
   let savedPins = [];
 
   const map = document.querySelector(`.map`);
@@ -115,12 +120,6 @@
     };
 
     const filterPinsByPrice = (value) => {
-      const MIDDLE_PRICE = `middle`;
-      const MIDDLE_PRICE_VALUE = 10000;
-      const LOW_PRICE = `low`;
-      const HIGH_PRICE_VALUE = 50000;
-      const HIGH_PRICE = `high`;
-
       pins = pins.filter((pin) => {
         switch (value) {
           case MIDDLE_PRICE:

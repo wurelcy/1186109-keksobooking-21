@@ -1,6 +1,18 @@
 'use strict';
 
 (function () {
+  const MIN_TITLE_LENGTH = 30;
+  const MAX_TITLE_LENGTH = 100;
+  const MAX_PRICE = 1000000;
+  const BUNGALOW_MIN_PRICE = 0;
+  const FLAT_MIN_PRICE = 1000;
+  const HOUSE_MIN_PRICE = 5000;
+  const PALACE_MIN_PRICE = 10000;
+  const DEFAULT_TIME = `12:00`;
+  const DEFAULT_AMOUNT = 1;
+  const DEFAULT_ADDRESS_Y = `406`;
+  const DEFAULT_ADDRESS_X = `580`;
+  const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
   const roomsOption = document.querySelector(`#room_number`);
   const guestsOption = document.querySelector(`#capacity`);
   const address = document.querySelector(`#address`);
@@ -13,9 +25,6 @@
   const resetFormButton = document.querySelector(`.ad-form__reset`);
   const featuresList = document.querySelectorAll(`.feature__checkbox`);
   const mainPin = window.map.mapPin;
-  const DEFAULT_ADDRESS_Y = `406`;
-  const DEFAULT_ADDRESS_X = `580`;
-  const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 
   const houseFileChooser = document.querySelector(`#images`);
   const housePreview = document.querySelector(`.ad-form__photo`);
@@ -32,16 +41,6 @@
   const fragment = document.querySelector(`.notice`);
 
   address.setAttribute(`readonly`, ``);
-
-  const MIN_TITLE_LENGTH = 30;
-  const MAX_TITLE_LENGTH = 100;
-  const MAX_PRICE = 1000000;
-  const BUNGALOW_MIN_PRICE = 0;
-  const FLAT_MIN_PRICE = 1000;
-  const HOUSE_MIN_PRICE = 5000;
-  const PALACE_MIN_PRICE = 10000;
-  const DEFAULT_TIME = `12:00`;
-  const DEFAULT_AMOUNT = 1;
 
   const validateTitle = () => {
     if (titleInput.validity.valueMissing) {
