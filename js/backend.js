@@ -6,7 +6,7 @@
   const StatusCode = {
     OK: 200
   };
-  const timeoutTime = 10000;
+  const TIMEOUT_TIME = 10000;
 
   const uploadData = function (data, onSuccess, onError) {
     const xhr = new XMLHttpRequest();
@@ -28,7 +28,7 @@
       onError();
     });
 
-    xhr.timeout = timeoutTime;
+    xhr.timeout = TIMEOUT_TIME;
 
     xhr.open(`POST`, URL_UPLOAD);
     xhr.send(data);
@@ -54,7 +54,7 @@
       onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
     });
 
-    xhr.timeout = timeoutTime;
+    xhr.timeout = TIMEOUT_TIME;
 
     xhr.open(`GET`, URL_LOAD);
     xhr.send();

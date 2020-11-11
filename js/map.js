@@ -8,7 +8,7 @@
   const housingRoomsFilter = mapFilters.querySelector(`#housing-rooms`);
   const housingGuestsFilter = mapFilters.querySelector(`#housing-guests`);
   const housingFeaturesList = mapFilters.querySelectorAll(`.map__checkbox`);
-  const anyValue = `any`;
+  const ANY_VALUE = `any`;
   let savedPins = [];
 
   const map = document.querySelector(`.map`);
@@ -168,7 +168,7 @@
 
     Filters.forEach((obj) => {
       const selectValue = obj.name.value;
-      if (selectValue !== anyValue) {
+      if (selectValue !== ANY_VALUE) {
         obj.filterFunction(selectValue);
       }
     });
@@ -194,7 +194,7 @@
 
   const resetFilters = () => {
     mapFilters.querySelectorAll(`select`).forEach((select) => {
-      select.value = anyValue;
+      select.value = ANY_VALUE;
     });
     housingFeaturesList.forEach((element) => {
       element.checked = false;
