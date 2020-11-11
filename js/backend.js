@@ -61,7 +61,7 @@
   };
 
   window.backend = {
-    uploadData: uploadData,
-    loadData: loadData
+    uploadData,
+    loadData
   };
 })();

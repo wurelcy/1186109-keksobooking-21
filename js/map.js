@@ -203,11 +203,11 @@
   };
 
   window.map = {
-    mapPin: mapPin,
-    makeDisabled: makeDisabled,
-    map: map,
-    resetFilters: resetFilters,
-    removeMapElements: removeMapElements,
-    getFilteredPins: getFilteredPins
+    mapPin,
+    makeDisabled,
+    map,
+    resetFilters,
+    removeMapElements,
+    getFilteredPins
   };
 })();

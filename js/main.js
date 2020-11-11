@@ -15,6 +15,6 @@
   setAddress();
 
   window.main = {
-    PIN_SIZE: PIN_SIZE
+    PIN_SIZE
   };
 })();

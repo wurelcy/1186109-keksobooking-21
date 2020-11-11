@@ -146,11 +146,11 @@
   };
 
   window.card = {
-    openCard: openCard,
-    closeCard: closeCard,
-    TYPE_FLAT_EN: TYPE_FLAT_EN,
-    TYPE_BUNGALOW_EN: TYPE_BUNGALOW_EN,
-    TYPE_PALACE_EN: TYPE_PALACE_EN,
-    TYPE_HOUSE_EN: TYPE_HOUSE_EN
+    openCard,
+    closeCard,
+    TYPE_FLAT_EN,
+    TYPE_BUNGALOW_EN,
+    TYPE_PALACE_EN,
+    TYPE_HOUSE_EN
   };
 })();

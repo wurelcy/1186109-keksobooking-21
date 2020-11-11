@@ -11,13 +11,13 @@
   let pins = [];
 
   window.data = {
-    PINS_LENGTH: PINS_LENGTH,
-    pins: pins,
-    MIN_Y: MIN_Y,
-    MIN_X: MIN_X,
-    MAX_Y: MAX_Y,
-    MAX_X: MAX_X,
-    ENTER_BUTTON: ENTER_BUTTON,
-    ESCAPE_BUTTON: ESCAPE_BUTTON
+    PINS_LENGTH,
+    pins,
+    MIN_Y,
+    MIN_X,
+    MAX_Y,
+    MAX_X,
+    ENTER_BUTTON,
+    ESCAPE_BUTTON
   };
 })();
