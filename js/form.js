@@ -122,21 +122,15 @@
       const guestsValue = parseInt(guestsOption.value, 10);
       const roomsValue = parseInt(roomsOption.value, 10);
 
-      if ((roomsValue < guestsValue && guestsValue > 0) || (guestsValue === 0 && roomsValue !== 100) || (guestsValue > 0 && roomsValue === 100)) {
-        guestsOption.setCustomValidity(`Слишком много гостей`);
-      } else {
-        guestsOption.setCustomValidity(``);
-      }
+      const isSomeCondition = (roomsValue < guestsValue && guestsValue > 0) || (guestsValue === 0 && roomsValue !== 100) || (guestsValue > 0 && roomsValue === 100);
+      guestsOption.setCustomValidity(isSomeCondition ? `Слишком много гостей` : ``);
     });
     roomsOption.addEventListener(`change`, function () {
       const guestsValue = parseInt(guestsOption.value, 10);
       const roomsValue = parseInt(roomsOption.value, 10);
 
-      if ((roomsValue < guestsValue && guestsValue > 0) || (guestsValue === 0 && roomsValue !== 100) || (guestsValue > 0 && roomsValue === 100)) {
-        guestsOption.setCustomValidity(`Слишком много гостей`);
-      } else {
-        guestsOption.setCustomValidity(``);
-      }
+      const isSomeCondition = (roomsValue < guestsValue && guestsValue > 0) || (guestsValue === 0 && roomsValue !== 100) || (guestsValue > 0 && roomsValue === 100);
+      guestsOption.setCustomValidity(isSomeCondition ? `Слишком много гостей` : ``);
     });
   };
 
