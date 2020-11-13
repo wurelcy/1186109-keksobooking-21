@@ -204,10 +204,10 @@
   const closeSuccessMessage = () => {
     const message = document.querySelector(`.success`);
 
-    const closeMessageHandler = () => {
+    const onCloseMessage = () => {
       message.remove();
 
-      document.removeEventListener('keydown', function (evt) {
+      document.removeEventListener(`keydown`, function (evt) {
         if (evt.key === window.data.ESCAPE_BUTTON) {
           message.remove();
         }
@@ -215,12 +215,12 @@
     };
 
     document.addEventListener(`click`, function () {
-      closeMessageHandler();
+      onCloseMessage();
     });
 
     document.addEventListener(`keydown`, function (evt) {
       if (evt.key === window.data.ESCAPE_BUTTON) {
-        closeMessageHandler();
+        onCloseMessage();
       }
     });
   };
@@ -229,10 +229,10 @@
     const message = document.querySelector(`.error`);
     const closeBtn = document.querySelector(`.error__button`);
 
-    const closeMessageHandler = () => {
+    const onCloseMessage = () => {
       message.remove();
 
-      document.removeEventListener('keydown', function (evt) {
+      document.removeEventListener(`keydown`, function (evt) {
         if (evt.key === window.data.ESCAPE_BUTTON) {
           message.remove();
         }
@@ -245,7 +245,7 @@
 
     window.addEventListener(`keydown`, function (evt) {
       if (evt.key === window.data.ESCAPE_BUTTON) {
-        closeMessageHandler();
+        onCloseMessage();
       }
     });
   };
@@ -266,12 +266,12 @@
     closeErrorMessage();
   };
 
-  const submitHandler = (evt) => {
+  const onSubmit = (evt) => {
     evt.preventDefault();
     window.backend.uploadData(new FormData(form), successSubmit, errorSubmit);
   };
 
-  form.addEventListener(`submit`, submitHandler);
+  form.addEventListener(`submit`, onSubmit);
 
   window.form = {
     address

@@ -68,7 +68,7 @@
     });
   };
 
-  const successHandler = (pins) => {
+  const onSuccess = (pins) => {
     removeMapElements();
     savedPins = pins.slice();
     for (let j = 0; j < window.data.PINS_LENGTH; j++) {
@@ -78,7 +78,7 @@
     window.card.openCard(pins);
   };
 
-  const errorHandler = (errorMessage) => {
+  const onError = (errorMessage) => {
     const node = document.createElement(`div`);
     node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: #9c2727;`;
     node.style.position = `absolute`;
@@ -94,14 +94,14 @@
   mapPin.addEventListener(`mousedown`, function (evt) {
     if (evt.button === 0 && (map.classList.contains(`map--faded`))) {
       makeActive();
-      window.backend.loadData(successHandler, errorHandler);
+      window.backend.loadData(onSuccess, onError);
     }
   });
 
   mapPin.addEventListener(`keydown`, function (evt) {
     if (evt.key === window.data.ENTER_BUTTON && (map.classList.contains(`map--faded`))) {
       makeActive();
-      window.backend.loadData(successHandler, errorHandler);
+      window.backend.loadData(onSuccess, onError);
     }
   });
 

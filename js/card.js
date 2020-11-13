@@ -98,7 +98,7 @@
     const closeButtons = document.querySelectorAll(`.popup__close`);
     const card = document.querySelector(`.map__card`);
 
-    const closeCardHandler = () => {
+    const onCloseCard = () => {
       card.remove();
 
       document.removeEventListener(`keydown`, function (evt) {
@@ -115,7 +115,7 @@
 
       document.addEventListener(`keydown`, function (evt) {
         if (evt.key === window.data.ESCAPE_BUTTON) {
-          closeCardHandler();
+          onCloseCard();
         }
       });
     });
