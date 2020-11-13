@@ -118,19 +118,18 @@
   };
 
   const validateSelect = function () {
-    guestsOption.addEventListener(`change`, function () {
+    const validateGuests = () => {
       const guestsValue = parseInt(guestsOption.value, 10);
       const roomsValue = parseInt(roomsOption.value, 10);
 
       const isSomeCondition = (roomsValue < guestsValue && guestsValue > 0) || (guestsValue === 0 && roomsValue !== 100) || (guestsValue > 0 && roomsValue === 100);
       guestsOption.setCustomValidity(isSomeCondition ? `Слишком много гостей` : ``);
+    };
+    guestsOption.addEventListener(`change`, function () {
+      validateGuests();
     });
     roomsOption.addEventListener(`change`, function () {
-      const guestsValue = parseInt(guestsOption.value, 10);
-      const roomsValue = parseInt(roomsOption.value, 10);
-
-      const isSomeCondition = (roomsValue < guestsValue && guestsValue > 0) || (guestsValue === 0 && roomsValue !== 100) || (guestsValue > 0 && roomsValue === 100);
-      guestsOption.setCustomValidity(isSomeCondition ? `Слишком много гостей` : ``);
+      validateGuests();
     });
   };
 
