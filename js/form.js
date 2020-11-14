@@ -12,6 +12,7 @@
   const DEFAULT_AMOUNT = 1;
   const DEFAULT_ADDRESS_Y = `406`;
   const DEFAULT_ADDRESS_X = `580`;
+  const AVATAR_SRC = `img/muffin-grey.svg`;
   const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
   const roomsOption = document.querySelector(`#room_number`);
   const guestsOption = document.querySelector(`#capacity`);
@@ -177,6 +178,7 @@
     description.value = ``;
     roomsOption.value = DEFAULT_AMOUNT;
     guestsOption.value = DEFAULT_AMOUNT;
+    userPreview.src = AVATAR_SRC;
     timeOut.value = DEFAULT_TIME;
     timeIn.value = DEFAULT_TIME;
     type.value = window.card.TYPE_FLAT_EN;
